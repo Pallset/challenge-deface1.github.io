@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deface Challenge</title>
+    <link rel="stylesheet" href="challenge.css">
+    <script>
+        function checkPayload() {
+            var input = document.getElementById("payload").value;
+
+            // List payload XSS yang valid
+            let validPayloads = [
+                "<script>alert('Hacked!')</script>",
+                "<img src=x onerror=alert('XSS')>",
+                "<svg onload=alert('XSS')>",
+                "<marquee onstart=alert('XSS')>Hacked</marquee>",
+                "<iframe src='javascript:alert(\"XSS\")'></iframe>",
+                "<body onload=alert('XSS')>",
+                "<input type=text value='XSS' onfocus=alert('Hacked!')>",
+                "<object data='javascript:alert(\"XSS\")'></object>",
+                "<a href='javascript:alert(\"XSS\")'>Click Me</a>"
+            ];
+
+            // Cek apakah input match dengan payload yang valid
+            if (validPayloads.includes(input)) {
+                document.body.innerHTML = `<h1 class='hacked'>HACKED BY ${input}</h1>`;
+                alert("Successfully Defaced Challenge!");
+            } else {
+                alert("Invalid Payload!");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>💀 Deface Challenge 💀</h1>
+    <input type="text" id="payload" placeholder="Masukkan XSS, JSO, atau POC">
+    <button onclick="checkPayload()">Submit</button>
+</body>
+</html>
